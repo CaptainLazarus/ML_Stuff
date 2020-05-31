@@ -14,7 +14,7 @@ def inp():
     return data_frame
 
 def classify(T,b,p_f):
-    #Fuck this
+    #Classification
     p = []
     k=0
     multMax = 0
@@ -25,11 +25,11 @@ def classify(T,b,p_f):
             temp = p_f[feature][value][j]
             # print(temp)
             m*=temp
+        print("p({}) -> {}".format(j , m))
         if m > multMax:
             multMax = m
             cl=j
     return cl
-    #P(X/T) = P(X/)
 
 def create_Model(df): 
     train_data = df.iloc[:, :4]
@@ -49,6 +49,7 @@ def create_Model(df):
         for value in train_data.values[: , feature]:
             dic2[feature][value] = dict.fromkeys(labels.values[:,0] , 0)
 
+    #Utility step
     for feature in range(0,train_data.shape[1]):
         index=0
         for value in train_data.values[: , feature]:
@@ -56,6 +57,7 @@ def create_Model(df):
             dic2[feature][value][temp]+=1
             index+=1
 
+    #Finding probability of P(x/"Class")
     for i in range(len(dic2)):
         vals = dic2[i]
         for j in vals:
@@ -67,7 +69,5 @@ def create_Model(df):
 df = inp()
 dic,dic2 = create_Model(df)
 
-
-X = list(map(int , input().split()))
-
-print(classify(X, dic , dic2))
+Input = [0 ,1,1,1]
+print(classify(Input, dic , dic2))
